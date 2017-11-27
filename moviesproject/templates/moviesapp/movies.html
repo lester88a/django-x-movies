@@ -1,0 +1,55 @@
+{% extends 'moviesapp/base.html' %}
+{% load staticfiles %}
+{% block body_block%}
+<br/>
+<br/>
+
+
+
+{% if movies %}
+
+    {% for item in movies %}
+      <div class="row">
+        <div class="media-left">
+          <a href="#">
+            <img class="media-object" style="width: 150px;" src="{% static 'images/icon.png' %}" alt="img">
+          </a>
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">{{ item.title }} ({{ item.year }} )</h4>
+          <p><i class="fa fa-star" aria-hidden="true"></i> <b>{{ item.rate }}</b> &emsp;|&emsp; Genre: {% for genre in item.genres.all %}{{ genre }} {% endfor %}</p>
+          <p><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Votes: {{ item.votes }} &emsp;|&emsp; <i class="fa fa-hourglass" aria-hidden="true"></i> Runtime: {{ item.runtime }} min</p>
+          <p>{{ item.desc }}</p>
+        </div>
+      </div>
+     {% endfor %}
+
+     <nav aria-label="Page navigation">
+       <ul class="pagination">
+         {% if movies.has_previous %}
+           <li>
+             <a href="?page={{ movies.previous_page_number }}" aria-label="Previous">
+               <span aria-hidden="true">&laquo;</span>
+             </a>
+           </li>
+         {% endif %}
+
+
+
+          <li><a href="#"> {{ movies.number }} / {{ movies.paginator.num_pages }}</a></li>
+
+
+         {% if movies.has_next %}
+           <li>
+            <a href="?page={{ movies.next_page_number }}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+{% else %}
+ <p>No records!</p>
+{% endif %}
+
+{% endblock %}
